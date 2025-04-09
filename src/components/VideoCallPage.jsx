@@ -155,7 +155,6 @@ const VideoCallPage = () => {
             video.play();
             }
           }}
-          muted
           width={300}
           
           autoPlay
