@@ -52,11 +52,15 @@ const VideoCallPage = () => {
       }
   },[myStream])
 
-  const handleCallAccepted = useCallback(({from,ans})=>{
-    peer.setLocalDescription(ans)
-    console.log("Call Accepted",from,ans)
-    sendStreams()
-  },[sendStreams])
+  const handleCallAccepted = useCallback(({ from, ans }) => {
+    peer.setLocalDescription(ans);
+    console.log("Call Accepted", from, ans);
+    
+    setTimeout(() => {
+      sendStreams();
+    }, 1000); 
+  }, [sendStreams]);
+  
 
 
   const handleNegoNeeded = useCallback(async()=>{
@@ -73,6 +77,15 @@ const VideoCallPage = () => {
   const handleNegoFinal = useCallback(async({ans})=>{
     await peer.setLocalDescription(ans)
   },[])
+
+
+  useEffect(()=>{
+    if(remoteSocketId!=null)
+    {
+      console.log("Done")
+      handleCallUser()
+    }
+  },[remoteSocketId])
 
 
   useEffect(()=>{
@@ -229,7 +242,7 @@ const VideoCallPage = () => {
             </button>
           </div>
           
-          {remoteSocketId?<button 
+          {/* {remoteSocketId?<button 
             onClick={handleCallUser}
             className="flex items-center justify-center rounded-full p-3 px-6"
             style={{ backgroundColor: 'black', color: 'white' }}
@@ -246,7 +259,7 @@ const VideoCallPage = () => {
           >
             <Phone size={20} />
             <span className="ml-2 font-medium">Send Streams</span>
-          </button>:''}
+          </button>:''} */}
         </div>
       </div>
     </div>
