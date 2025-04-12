@@ -249,7 +249,7 @@ const VideoCallPage = () => {
           >
             <Phone size={20} />
             <span className="ml-2 font-medium">Call</span>
-          </button>:''}
+          </button>:''} */}
 
 
           {myStream?<button 
@@ -259,7 +259,7 @@ const VideoCallPage = () => {
           >
             <Phone size={20} />
             <span className="ml-2 font-medium">Send Streams</span>
-          </button>:''} */}
+          </button>:''}
         </div>
       </div>
     </div>
