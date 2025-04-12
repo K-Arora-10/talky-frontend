@@ -55,11 +55,7 @@ const VideoCallPage = () => {
   const handleCallAccepted = useCallback(({ from, ans }) => {
     peer.setLocalDescription(ans);
     console.log("Call Accepted", from, ans);
-    
-    setTimeout(() => {
-      sendStreams();
-    }, 1000); 
-  }, [sendStreams]);
+  }, []);
   
 
 
