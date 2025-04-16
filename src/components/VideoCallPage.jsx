@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { use, useCallback, useEffect, useState } from 'react';
 import { Video, Mic, MicOff, VideoOff, Phone, MessageSquare, Users, Share, MoreVertical } from 'lucide-react';
 import { useSocket } from '../context/SocketProvider';
 import peer from '../sevice/peer';
@@ -11,6 +11,7 @@ const VideoCallPage = () => {
     const [remoteSocketId,setRemoteSocketId] = useState(null)
     const [myStream,setMyStream] = useState(null)
     const [remoteStream,setRemoteStream] = useState(null)
+    const [remoteName,setRemoteName] = useState(null)
 
   // Color scheme from the provided image
   const colors = {
@@ -22,9 +23,11 @@ const VideoCallPage = () => {
   };
 
   const handleCallUser = useCallback(async()=>{
+    const rname=localStorage.getItem("name")
+    console.log("My name : ",rname)
     const stream = await navigator.mediaDevices.getUserMedia({audio:true , video:true})
     const offer = await peer.getOffer()
-    socket.emit('user-call',{to:remoteSocketId,offer})
+    socket.emit('user-call',{to:remoteSocketId,offer,rname})
     setMyStream(stream)
   },[remoteSocketId,socket])
 
@@ -32,11 +35,13 @@ const VideoCallPage = () => {
     const {name,id} = data
     console.log(`${data.name} joined the room with id ${data.id}`)
     setRemoteSocketId(data.id)
+    
   },[setRemoteSocketId])
 
-  const handleIncomingCall = useCallback(async ({from,offer})=>{
+  const handleIncomingCall = useCallback(async ({from,offer,rname})=>{
     setRemoteSocketId(from)
-    console.log("Incoming Call from",from,offer)
+    console.log("Incoming Call from",from,offer,rname)
+    setRemoteName(rname)
     const stream = await navigator.mediaDevices.getUserMedia({audio:true , video:true})
     setMyStream(stream)
     const ans = await peer.getAnswer(offer)
@@ -120,23 +125,13 @@ const VideoCallPage = () => {
   const [micMuted, setMicMuted] = useState(false);
   const [videoOff, setVideoOff] = useState(false);
   
-  // Sample user data - would come from props or context in real app
-  const currentUser = {
-    name: "Sarah Johnson",
-    isHost: true
-  };
-
   
-  
-  const otherUser = {
-    name: "Michael Chen",
-    isHost: false
-  };
 
   return (
-    <div className="flex flex-col h-screen" style={{ backgroundColor: colors.darkBlue }}>
+    
+    <div className="flex flex-col max-h-screen overflow-hidden" style={{ backgroundColor: colors.darkBlue }}>
       {/* Header */}
-      <div className="flex justify-between items-center p-4" style={{ backgroundColor: colors.navyBlue }}>
+      <div className="flex-grow flex justify-between items-center p-2 h-[10vh]" style={{ backgroundColor: colors.navyBlue }}>
         <div className="flex items-center">
           <h1 className="text-xl font-bold" style={{ color: colors.lightGray }}>Video Meeting</h1>
           <span className="ml-3 px-2 py-1 text-xs rounded-full" style={{ backgroundColor: colors.teal, color: colors.lightGray }}>
@@ -153,45 +148,56 @@ const VideoCallPage = () => {
       </div>
       
       {/* Main Content Area */}
-      <div className="flex-grow flex flex-col md:flex-row p-4 gap-4 relative">
-        {/* Large Video (Other Person) */}
-        <h3>Remote Stream</h3>
-        {remoteStream && (
-          <video
-          ref={(video) => {
-          if (video) {
-            video.srcObject = remoteStream;
-            video.play();
-            }
-          }}
-          width={300}
-          
-          autoPlay
-          />
-        )}
+      <div className="flex-grow items-center flex flex-col md:flex-row p-2 gap-4 relative h-[80vh]">
+        {/* Remote Stream */}
+        <div className="w-4/7 flex items-center justify-center">
+          {remoteStream && (
+            <>
+            <div >
+              <video
+                ref={(video) => {
+                  if (video) {
+                    video.srcObject = remoteStream;
+                    video.play();
+                  }
+                }}
+                className="w-full h-full object-contain rounded"
+                autoPlay
+              />
+              <h3 className='text-white'>{remoteName?remoteName:""}</h3>
+            </div>
+            
+            </>
+          )}
+        </div>
 
-        
-        {/* Self Video (Smaller) */}
-        <h3>My Stream</h3>
-        {myStream && (
-          <video
-          ref={(video) => {
-          if (video) {
-            video.srcObject = myStream;
-            video.play();
-            }
-          }}
-          muted
-          width={300}
-          
-          autoPlay
-          />
-        )}
+        {/* My Stream */}
+        <div className="w-3/7 flex items-center justify-center">
+          {myStream && (
+            <>
+              <div>
+              <video
+                ref={(video) => {
+                  if (video) {
+                    video.srcObject = myStream;
+                    video.play();
+                  }
+                }}
+                className="w-full h-full object-contain rounded"
+                muted
+                autoPlay
+              />
+              <h3 className='text-white'>You</h3>
+              </div>
+              
+            </>
+          )}
+        </div>
 
       </div>
       
       {/* Controls */}
-      <div className="p-4" style={{ backgroundColor: colors.navyBlue }}>
+      <div className="p-4 h-[10vh]" style={{ backgroundColor: colors.navyBlue }}>
         <div className="flex justify-between items-center">
           <div className="flex space-x-2">
             <button 
@@ -200,7 +206,7 @@ const VideoCallPage = () => {
                 backgroundColor: micMuted ? colors.teal : 'rgba(116, 141, 146, 0.2)',
                 color: colors.lightGray
               }}
-              onClick={() => setMicMuted(!micMuted)}
+              onClick={() => setMicMued(!micMuted)}
             >
               {micMuted ? <MicOff size={20} /> : <Mic size={20} />}
             </button>
@@ -254,7 +260,7 @@ const VideoCallPage = () => {
             style={{ backgroundColor: 'black', color: 'white' }}
           >
             <Phone size={20} />
-            <span className="ml-2 font-medium">Send Streams</span>
+            <span className="ml-2 font-medium">Connect</span>
           </button>:''}
         </div>
       </div>

@@ -27,6 +27,7 @@ const EnterDetails = () => {
     (e) => {
     e.preventDefault();
     setSubmitted(true);
+    localStorage.setItem("name",formData.name)
     socket.emit('join-room',formData)
     // console.log('Form submitted:', formData); 
   },[formData,socket]);
