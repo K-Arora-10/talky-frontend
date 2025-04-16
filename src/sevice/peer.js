@@ -2,19 +2,23 @@ class PeerService{
     constructor(){
         if(!this.PeerService){
             this.peer = new RTCPeerConnection({
-                iceServers:[{
-                    urls: [
-                        'stun:stun.l.google.com:19302',
-                        'stun:global.stun.twilio.com:3478',
-                    ],
-                },
-                {
-                    urls: 'turn:openrelay.metered.ca:80',
-                    username: 'openrelayproject',
-                    credential: 'openrelayproject'
-                }
-            ]
-            })
+                
+                    iceServers: [
+                      {
+                        urls: [
+                          "stun:ss-turn1.xirsys.com",
+                          "turn:ss-turn1.xirsys.com:80?transport=udp",
+                          "turn:ss-turn1.xirsys.com:3478?transport=udp",
+                          "turn:ss-turn1.xirsys.com:80?transport=tcp",
+                          "turn:ss-turn1.xirsys.com:3478?transport=tcp",
+                          "turns:ss-turn1.xirsys.com:443?transport=tcp",
+                          "turns:ss-turn1.xirsys.com:5349?transport=tcp"
+                        ],
+                        username: "D7AwCeqPVw9G7UY76GbYHFKTW7qX2ZYd2BJ8585ZkvX4GzTrzQFKT915teKL_vkkAAAAAGf_oIJrcmlzaGFyb3Jh",
+                        credential: "2910c3de-1abd-11f0-a90f-0242ac140004"
+                      }
+                    ]
+                })
         }
     }
 
