@@ -1,12 +1,35 @@
-# React + Vite
+# Talky 🎥
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Talky** is a real-time video calling web application built using **WebRTC**. It allows two users to join a shared room and have a secure peer-to-peer video meeting via their browsers.
 
-Currently, two official plugins are available:
+## 🔗 Live Demo
+[Coming Soon]()
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🛠 Tech Stack
 
-## Expanding the ESLint configuration
+- **Frontend:** HTML, CSS, JavaScript
+- **Real-time Communication:** WebRTC
+- **Signaling Server:** Socket.io + Node.js
+- **Backend:** Express.js (for room management & signaling)
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 📌 Features
+
+- 👥 One-on-one video calling
+- 🔗 Room-based call joining via unique room IDs
+- 📹 High-quality WebRTC-based peer-to-peer video streaming
+
+## 🚀 How It Works
+
+1. A user opens the app and enters a room ID.
+2. If they’re the first, they wait for someone to join.
+3. The second user joins the same room ID.
+4. Both browsers exchange WebRTC offer/answer using a signaling server (via Socket.io).
+5. A direct peer-to-peer connection is established for the video call.
+
+
+## 🧑‍💻 Setup Instructions
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/your-username/talky.git
+   cd talky
