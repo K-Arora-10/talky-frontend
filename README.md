@@ -3,7 +3,7 @@
 **Talky** is a real-time video calling web application built using **WebRTC**. It allows two users to join a shared room and have a secure peer-to-peer video meeting via their browsers.
 
 ## 🔗 Live Demo
-[Coming Soon]()
+https://talkyy.netlify.app/
 
 ## 🛠 Tech Stack
 
