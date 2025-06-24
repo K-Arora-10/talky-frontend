@@ -7,7 +7,7 @@ https://talkyy.netlify.app/
 
 ## 🛠 Tech Stack
 
-- **Frontend:** HTML, CSS, JavaScript
+- **Frontend:** ReactJS
 - **Real-time Communication:** WebRTC
 - **Signaling Server:** Socket.io + Node.js
 - **Backend:** Express.js (for room management & signaling)
